@@ -1,30 +1,70 @@
-@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html,
+.transform-60 {
+  transform-origin: left top;
+  transform: scale(0.6);
+}
+
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
+  background-color: #f9f9f9 !important;
+  font-family: sans-serif !important;
+  font-style: normal;
+  font-weight: normal;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.mb-10 {
+  margin-bottom: 10px;
 }
 
-* {
-  box-sizing: border-box;
+.dots-loader-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.dot-flashing {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #989898;
+  animation: dot-flashing 0.7s infinite alternate;
+  animation-delay: 0.3s;
+}
+.dot-flashing::before,
+.dot-flashing::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+}
+.dot-flashing::before {
+  left: -25px;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #989898;
+  animation: dot-flashing 0.7s infinite alternate;
+  animation-delay: 0s;
+}
+.dot-flashing::after {
+  left: 25px;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #989898;
+  animation: dot-flashing 0.7s infinite alternate;
+  animation-delay: 0.6s;
+}
+@keyframes dot-flashing {
+  0% {
+    background-color: #989898;
   }
-  body {
-    color: white;
-    background: black;
+  50%,
+  100% {
+    background-color: #d7d7d7;
   }
 }
