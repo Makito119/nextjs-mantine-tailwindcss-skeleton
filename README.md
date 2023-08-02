@@ -1,34 +1,127 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Environment building
 
-## Getting Started
+1. use node version
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
+```
+$ node -v
+v16.13.0
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. create node_modules
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+$ npm i
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+3. VSCode extension
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+.vscode/extensions.json を見て入れてください(全て必須です)
 
-## Learn More
+# localhost
 
-To learn more about Next.js, take a look at the following resources:
+```
+$ npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# VSCode Settings
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+.vscode/settings.json が優先されると思います。
 
-## Deploy on Vercel
+# Directory structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+directory nameは可能な限り単数形にすること(next.jsのpagesフォルダのみは複数形のままにする)
+```
+src
+├── public                              # 画像やフォントなどの静的ファイル
+├── component                          # アプリケーション全体で使用できる共通コンポーネント
+        ├── Element                        # 複数のコンポーネントで使用するButton、Dialogなどを配置する
+        ├── Form                            # 複数のコンポーネントで使用するformを配置する
+├── config                              # 環境変数などをエクスポートするところ
+├── feature                            # 機能ベースモジュール
+        ├── somethingfeature                # 機能名
+            ├── __test__                        # React Testing Libraryのテストコード
+            ├── api                             # api call functionを置く
+            ├── component                      # コンポーネント
+            ├── config                          # 設定ファイル
+            ├── types                           # 型定義ファイル(このtypesフォルダがあるfeatureで共通typeが必要な場合、type/index.tsを作成して記述する)
+            ├── index.ts                        # エントリーポイント
+├── hook                               # アプリケーション全体で使用できる共通hooks
+├── lib                                 # ライブラリをアプリケーション用に設定して再度エクスポートしたもの
+├── provider                           # アプリケーションのすべてのプロバイダー
+├── store                              # グローバルステートストア
+├── test                                # テストユーティリティとモックサーバ
+├── type                               # アプリケーション全体で使用される基本的な型の定義
+└── util                               # 共通のユーティリティ関数
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Reference:
+https://zenn.dev/t_keshi/articles/bulletproof-react-2022#bulletproof-react%E3%81%AE%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E6%A7%8B%E6%88%90
+
+# API call
+  axios を使うこと
+
+# eslint config
+
+.eslintrc.js は勝手に変更しないでください。変更したい場合は@sugao に相談してください。
+
+# CSS
+
+- 「スマホ」「タブレット」で同じデザイン
+- pc のみ別デザイン
+
+* Tailwind CSS
+  https://tailwindcss.com/docs/installation
+* Mantine
+  https://mantine.dev/
+
+# git commit
+1. git commit時にprettierとeslintのチェックが実行されチェックに引っかかった場合以下のようにエラーが出力されます。  
+```
+$ git commit -m "test" 
+
+> @ check /Users/sugayutokyo/Developer/workplace/upbond/gohey-frontend
+> run-p --continue-on-error check:prettier check:eslint
+
+
+> @ check:prettier /Users/sugayutokyo/Developer/workplace/upbond/gohey-frontend
+> prettier --check .
+
+
+> @ check:eslint /Users/sugayutokyo/Developer/workplace/upbond/gohey-frontend
+> eslint --ext .tsx,.js,.ts .
+
+Checking formatting...
+[warn] README.md
+[warn] src/pages/_ducument.tsx
+[warn] Code style issues found in 2 files. Forgot to run Prettier?
+```
+
+2. `npm run fix`を実行することによって自動で修正できる内容に関しては修正できます。(`git add .`することを忘れずに)
+
+3. 2.を行なってもエラーが出力される場合、該当のファイルにPrettierを適用させたり、eslintのルールに沿って修正してください。  
+
+# Test
+1. Storybook
+src/component、src/feature/**/components配下にReactのコンポーネントファイルを作成する場合はMustで作成すること
+
+`npm run storybook`で確認すること
+
+# コーディングルール
+* src/pages
+1. constで変数を作成
+2. export default 変数名
+```
+const SSG: NextPage<Props> = props => {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+      <h1>Static rendered page</h1>
+      <div>ssg {props.formattedDate}</div>
+    </div>
+  );
+};
+
+export default SSG;
+```
+
+# Gitwork flowについて検討
+https://zenn.dev/matken/articles/git-branch-workflow-in-agile-for-startups
