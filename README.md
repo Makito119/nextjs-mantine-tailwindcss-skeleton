@@ -4,7 +4,7 @@
 
 ```
 $ node -v
-v16.13.0
+v18.16.0
 ```
 
 2. create node_modules
